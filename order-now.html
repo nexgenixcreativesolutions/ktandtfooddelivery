@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menu - Big D Coffee & Tea Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --coffee-dark: #2c1810;
+      --coffee-medium: #6f4e37;
+      --coffee-light: #a67c52;
+      --cream: #f5f1ed;
+      --tea-green: #8b9d83;
+      --accent-gold: #d4a574;
+      --white: #ffffff;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Jost', sans-serif;
+      background-color: var(--cream);
+      color: var(--coffee-dark);
+      line-height: 1.7;
+      overflow-x: hidden;
+      padding-bottom: 100px;
+    }
+
+    /* =================== HEADER =================== */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(245, 241, 237, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(44, 24, 16, 0.1);
+      z-index: 1000;
+      transition: all 0.3s ease;
+    }
+
+    nav {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 1.5rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: var(--coffee-dark);
+      letter-spacing: 1px;
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--coffee-medium);
+      font-size: 0.95rem;
+      font-weight: 400;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--coffee-dark);
+    }
+
+    .cart-icon-wrapper {
+      position: relative;
+      cursor: pointer;
+    }
+
+    .cart-icon {
+      font-size: 1.5rem;
+      color: var(--coffee-dark);
+      transition: color 0.3s ease;
+    }
+
+    .cart-icon:hover {
+      color: var(--coffee-medium);
+    }
+
+    .cart-count {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: var(--coffee-dark);
+      color: var(--white);
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: 50%;
+      min-width: 18px;
+      text-align: center;
+    }
+
+    /* =================== MENU SECTION =================== */
+    .menu-section {
+      padding: 8rem 3rem 4rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .menu-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .menu-header h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 4rem;
+      font-weight: 300;
+      color: var(--coffee-dark);
+      margin-bottom: 1rem;
+    }
+
+    .menu-header p {
+      font-size: 1.1rem;
+      color: var(--coffee-medium);
+    }
+
+    /* Category Tabs */
+    .category-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      margin-bottom: 3rem;
+      padding: 0 1rem;
+    }
+
+    .category-tab {
+      padding: 0.75rem 1.5rem;
+      background: var(--white);
+      border: 2px solid transparent;
+      border-radius: 50px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      color: var(--coffee-medium);
+    }
+
+    .category-tab:hover {
+      border-color: var(--coffee-light);
+    }
+
+    .category-tab.active {
+      background: var(--coffee-dark);
+      color: var(--white);
+      border-color: var(--coffee-dark);
+    }
+
+    /* Menu Grid */
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 2rem;
+    }
+
+    .menu-item {
+      background: var(--white);
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(44, 24, 16, 0.1);
+    }
+
+    .menu-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(44, 24, 16, 0.1);
+    }
+
+    .item-header {
+      margin-bottom: 1rem;
+    }
+
+    .item-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: var(--coffee-dark);
+      margin-bottom: 0.5rem;
+    }
+
+    .item-description {
+      font-size: 0.9rem;
+      color: var(--coffee-medium);
+      font-style: italic;
+      margin-bottom: 1rem;
+    }
+
+    .item-sizes {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .size-option {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem;
+      background: var(--cream);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+    }
+
+    .size-option:hover {
+      border-color: var(--coffee-light);
+    }
+
+    .size-option.selected {
+      background: var(--coffee-dark);
+      color: var(--white);
+      border-color: var(--coffee-dark);
+    }
+
+    .size-label {
+      font-weight: 500;
+    }
+
+    .size-price {
+      font-weight: 600;
+      color: var(--accent-gold);
+    }
+
+    .size-option.selected .size-price {
+      color: var(--white);
+    }
+
+    .quantity-control {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .qty-btn {
+      width: 35px;
+      height: 35px;
+      border: 2px solid var(--coffee-dark);
+      background: var(--white);
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      color: var(--coffee-dark);
+    }
+
+    .qty-btn:hover {
+      background: var(--coffee-dark);
+      color: var(--white);
+    }
+
+    .qty-display {
+      font-size: 1.2rem;
+      font-weight: 600;
+      min-width: 30px;
+      text-align: center;
+    }
+
+    .add-to-cart-btn {
+      width: 100%;
+      padding: 0.875rem;
+      background: var(--coffee-dark);
+      color: var(--white);
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 1rem;
+    }
+
+    .add-to-cart-btn:hover {
+      background: var(--coffee-medium);
+      transform: scale(1.02);
+    }
+
+    .add-to-cart-btn:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+
+    /* =================== CART SIDEBAR =================== */
+    .cart-sidebar {
+      position: fixed;
+      top: 0;
+      right: -450px;
+      width: 450px;
+      height: 100vh;
+      background: var(--white);
+      box-shadow: -5px 0 30px rgba(0, 0, 0, 0.2);
+      transition: right 0.4s ease;
+      z-index: 2000;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .cart-sidebar.open {
+      right: 0;
+    }
+
+    .cart-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      z-index: 1999;
+    }
+
+    .cart-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .cart-header {
+      padding: 2rem;
+      border-bottom: 1px solid rgba(44, 24, 16, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .cart-header h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-weight: 600;
+    }
+
+    .close-cart {
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--coffee-dark);
+      background: none;
+      border: none;
+      padding: 0.5rem;
+    }
+
+    .cart-items {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.5rem;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 1rem;
+      border-bottom: 1px solid rgba(44, 24, 16, 0.1);
+      margin-bottom: 1rem;
+    }
+
+    .cart-item-details h4 {
+      font-size: 1.1rem;
+      margin-bottom: 0.25rem;
+      color: var(--coffee-dark);
+    }
+
+    .cart-item-size {
+      font-size: 0.85rem;
+      color: var(--coffee-medium);
+      margin-bottom: 0.25rem;
+    }
+
+    .cart-item-qty {
+      font-size: 0.9rem;
+      color: var(--coffee-medium);
+    }
+
+    .cart-item-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.5rem;
+    }
+
+    .cart-item-price {
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: var(--accent-gold);
+    }
+
+    .remove-item {
+      font-size: 0.85rem;
+      color: #d32f2f;
+      cursor: pointer;
+      background: none;
+      border: none;
+      text-decoration: underline;
+    }
+
+    .empty-cart {
+      text-align: center;
+      padding: 3rem 2rem;
+      color: var(--coffee-medium);
+    }
+
+    .cart-footer {
+      padding: 2rem;
+      border-top: 1px solid rgba(44, 24, 16, 0.1);
+      background: var(--cream);
+    }
+
+    .cart-total {
+      display: flex;
+      justify-content: space-between;
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      font-family: 'Cormorant Garamond', serif;
+    }
+
+    .checkout-btn {
+      width: 100%;
+      padding: 1.25rem;
+      background: var(--coffee-dark);
+      color: var(--white);
+      border: none;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: 'Cormorant Garamond', serif;
+    }
+
+    .checkout-btn:hover {
+      background: var(--coffee-medium);
+      transform: scale(1.02);
+    }
+
+    /* =================== FOOTER =================== */
+    footer {
+      background: var(--coffee-dark);
+      color: var(--cream);
+      padding: 3rem 3rem 2rem;
+      margin-top: 4rem;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: var(--cream);
+    }
+
+    .footer-divider {
+      width: 100%;
+      height: 1px;
+      background: rgba(245, 241, 237, 0.2);
+      margin: 2rem 0;
+    }
+
+    .powered-by {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      font-size: 0.85rem;
+      color: rgba(245, 241, 237, 0.6);
+      margin-bottom: 1rem;
+    }
+
+    .powered-by-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: rgba(57, 255, 20, 0.1);
+      border: 1px solid rgba(57, 255, 20, 0.3);
+      border-radius: 4px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .powered-by-logo:hover {
+      background: rgba(57, 255, 20, 0.15);
+      border-color: rgba(57, 255, 20, 0.5);
+      transform: translateY(-2px);
+    }
+
+    .nexgenix-icon {
+      width: 24px;
+      height: 24px;
+      background: #39FF14;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: #000;
+      font-size: 0.7rem;
+      font-family: 'Courier New', monospace;
+    }
+
+    .powered-by-logo span {
+      color: #39FF14;
+      font-weight: 600;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+    }
+
+    .copyright {
+      font-size: 0.85rem;
+      color: rgba(245, 241, 237, 0.5);
+    }
+
+    /* =================== RESPONSIVE DESIGN =================== */
+    @media (max-width: 768px) {
+      nav {
+        padding: 1.5rem 1.5rem;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .menu-section {
+        padding: 6rem 1.5rem 3rem;
+      }
+
+      .menu-header h1 {
+        font-size: 2.5rem;
+      }
+
+      .menu-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .cart-sidebar {
+        width: 100%;
+        right: -100%;
+      }
+
+      .category-tabs {
+        gap: 0.5rem;
+      }
+
+      .category-tab {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <nav>
+      <a href="big-d-coffee.html" class="logo">Big D Coffee & Tea Hub</a>
+      <ul class="nav-links">
+        <li><a href="big-d-coffee.html">Home</a></li>
+        <li><a href="big-d-coffee.html#about">About</a></li>
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="big-d-coffee.html#location">Visit Us</a></li>
+      </ul>
+      <div class="cart-icon-wrapper" onclick="toggleCart()">
+        <span class="cart-icon">🛒</span>
+        <span class="cart-count" id="cartCount">0</span>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Cart Overlay -->
+  <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+
+  <!-- Cart Sidebar -->
+  <div class="cart-sidebar" id="cartSidebar">
+    <div class="cart-header">
+      <h2>Your Order</h2>
+      <button class="close-cart" onclick="toggleCart()">✕</button>
+    </div>
+    <div class="cart-items" id="cartItems">
+      <div class="empty-cart">
+        <p>Your cart is empty</p>
+      </div>
+    </div>
+    <div class="cart-footer">
+      <div class="cart-total">
+        <span>Total:</span>
+        <span id="cartTotal">₱0</span>
+      </div>
+      <button class="checkout-btn" onclick="checkout()">Order via Messenger</button>
+    </div>
+  </div>
+
+  <!-- Menu Section -->
+  <section class="menu-section">
+    <div class="menu-header">
+      <h1>Our Menu</h1>
+      <p>Select your favorites and add them to your cart</p>
+    </div>
+
+    <!-- Category Tabs -->
+    <div class="category-tabs" id="categoryTabs">
+      <button class="category-tab active" data-category="all">All Items</button>
+      <button class="category-tab" data-category="classic-milktea">Classic Milk Tea</button>
+      <button class="category-tab" data-category="deluxe-milktea">Deluxe Milk Tea</button>
+      <button class="category-tab" data-category="cream-cheese">Cream Cheese</button>
+      <button class="category-tab" data-category="coffee">Coffee</button>
+      <button class="category-tab" data-category="fruit-tea">Fruit Tea</button>
+      <button class="category-tab" data-category="blended">Blended</button>
+      <button class="category-tab" data-category="milk-based">Milk Based</button>
+      <button class="category-tab" data-category="snacks">Snacks</button>
+      <button class="category-tab" data-category="rice-meals">Rice Meals</button>
+    </div>
+
+    <!-- Menu Grid -->
+    <div class="menu-grid" id="menuGrid"></div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-logo">Big D Coffee & Tea Hub</div>
+      <div class="footer-divider"></div>
+      <div class="powered-by">
+        Powered by
+        <a href="https://nexgenixcreativesolutions.github.io" target="_blank" class="powered-by-logo">
+          <div class="nexgenix-icon">NG</div>
+          <span>Nex Genix Creative Solutions</span>
+        </a>
+      </div>
+      <p class="copyright">&copy; 2026 Big D Coffee & Tea Hub. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Menu Data
+    const menuData = {
+      'classic-milktea': [
+        { name: 'Chocolate', sizes: [{size: 'Juts (16oz)', price: 65}, {size: 'Daks (22oz)', price: 80}] },
+        { name: 'Red Velvet', sizes: [{size: 'Juts (16oz)', price: 65}, {size: 'Daks (22oz)', price: 80}] },
+        { name: 'Hokkaido', sizes: [{size: 'Juts (16oz)', price: 65}, {size: 'Daks (22oz)', price: 80}] },
+        { name: 'Okinawa', sizes: [{size: 'Juts (16oz)', price: 65}, {size: 'Daks (22oz)', price: 80}] },
+        { name: 'Wintermelon', sizes: [{size: 'Juts (16oz)', price: 65}, {size: 'Daks (22oz)', price: 80}] },
+        { name: 'Taro', sizes: [{size: 'Juts (16oz)', price: 65}, {size: 'Daks (22oz)', price: 80}] },
+        { name: 'Matcha', sizes: [{size: 'Juts (16oz)', price: 65}, {size: 'Daks (22oz)', price: 80}] }
+      ],
+      'deluxe-milktea': [
+        { name: 'Chocolate Deluxe', sizes: [{size: 'Juts (16oz)', price: 80}, {size: 'Daks (22oz)', price: 100}] },
+        { name: 'Red Velvet Deluxe', sizes: [{size: 'Juts (16oz)', price: 80}, {size: 'Daks (22oz)', price: 100}] },
+        { name: 'Hokkaido Deluxe', sizes: [{size: 'Juts (16oz)', price: 80}, {size: 'Daks (22oz)', price: 100}] },
+        { name: 'Okinawa Deluxe', sizes: [{size: 'Juts (16oz)', price: 80}, {size: 'Daks (22oz)', price: 100}] },
+        { name: 'Wintermelon Deluxe', sizes: [{size: 'Juts (16oz)', price: 80}, {size: 'Daks (22oz)', price: 100}] },
+        { name: 'Taro Deluxe', sizes: [{size: 'Juts (16oz)', price: 80}, {size: 'Daks (22oz)', price: 100}] },
+        { name: 'Matcha Deluxe', sizes: [{size: 'Juts (16oz)', price: 80}, {size: 'Daks (22oz)', price: 100}] }
+      ],
+      'cream-cheese': [
+        { name: 'Chocolate Mousse', sizes: [{size: 'Juts (16oz)', price: 95}, {size: 'Daks (22oz)', price: 115}] },
+        { name: 'Red Velvet Cream Cheese', sizes: [{size: 'Juts (16oz)', price: 95}, {size: 'Daks (22oz)', price: 115}] },
+        { name: 'Hokkaido Cookies & Cream', sizes: [{size: 'Juts (16oz)', price: 95}, {size: 'Daks (22oz)', price: 115}] },
+        { name: 'Okinawa Graham', sizes: [{size: 'Juts (16oz)', price: 95}, {size: 'Daks (22oz)', price: 115}] }
+      ],
+      'coffee': [
+        { name: 'Café Americano', sizes: [{size: 'Iced 16oz', price: 100}, {size: 'Iced 22oz', price: 150}, {size: 'Hot 8oz', price: 75}, {size: 'Hot 12oz', price: 95}] },
+        { name: 'Café Latte', sizes: [{size: 'Iced 16oz', price: 100}, {size: 'Iced 22oz', price: 150}, {size: 'Hot 8oz', price: 75}, {size: 'Hot 12oz', price: 95}] },
+        { name: 'Café Mocha', sizes: [{size: 'Iced 16oz', price: 100}, {size: 'Iced 22oz', price: 150}, {size: 'Hot 8oz', price: 75}, {size: 'Hot 12oz', price: 95}] },
+        { name: 'Caramel Macchiato', sizes: [{size: 'Iced 16oz', price: 100}, {size: 'Iced 22oz', price: 150}, {size: 'Hot 8oz', price: 75}, {size: 'Hot 12oz', price: 95}] },
+        { name: 'Caramel Latte', sizes: [{size: 'Iced 16oz', price: 100}, {size: 'Iced 22oz', price: 150}, {size: 'Hot 8oz', price: 75}, {size: 'Hot 12oz', price: 95}] },
+        { name: 'White Chocolate Mocha', sizes: [{size: 'Iced 16oz', price: 100}, {size: 'Iced 22oz', price: 150}, {size: 'Hot 8oz', price: 75}, {size: 'Hot 12oz', price: 95}] },
+        { name: 'Barista Drink', sizes: [{size: 'Iced 16oz', price: 100}, {size: 'Iced 22oz', price: 150}, {size: 'Hot 8oz', price: 75}, {size: 'Hot 12oz', price: 95}] },
+        { name: 'Pumpkin Spice', sizes: [{size: 'Iced 16oz', price: 100}, {size: 'Iced 22oz', price: 150}, {size: 'Hot 8oz', price: 75}, {size: 'Hot 12oz', price: 95}] },
+        { name: 'Hazelnut Charcoal Latte', sizes: [{size: 'Iced 16oz', price: 100}, {size: 'Iced 22oz', price: 160}, {size: 'Hot 8oz', price: 75}, {size: 'Hot 12oz', price: 95}] }
+      ],
+      'fruit-tea': [
+        { name: 'Green Apple', sizes: [{size: 'Juts (16oz)', price: 75}, {size: 'Daks (22oz)', price: 90}] },
+        { name: 'Lychee', sizes: [{size: 'Juts (16oz)', price: 75}, {size: 'Daks (22oz)', price: 90}] },
+        { name: 'Strawberry', sizes: [{size: 'Juts (16oz)', price: 75}, {size: 'Daks (22oz)', price: 90}] },
+        { name: '4 Seasons', sizes: [{size: 'Juts (16oz)', price: 75}, {size: 'Daks (22oz)', price: 90}] },
+        { name: 'Mango', sizes: [{size: 'Juts (16oz)', price: 75}, {size: 'Daks (22oz)', price: 90}] },
+        { name: 'Blue Lemon', sizes: [{size: 'Juts (16oz)', price: 75}, {size: 'Daks (22oz)', price: 90}] },
+        { name: 'Blueberry', sizes: [{size: 'Juts (16oz)', price: 75}, {size: 'Daks (22oz)', price: 90}] },
+        { name: "Ed's Very Berry", sizes: [{size: 'Juts (16oz)', price: 75}, {size: 'Daks (22oz)', price: 90}] },
+        { name: 'Chia Passion', sizes: [{size: 'Juts (16oz)', price: 75}, {size: 'Daks (22oz)', price: 90}] },
+        { name: 'Honey Peach', sizes: [{size: 'Juts (16oz)', price: 75}, {size: 'Daks (22oz)', price: 90}] }
+      ],
+      'blended': [
+        { name: 'Salted Caramel', sizes: [{size: 'Juts (16oz)', price: 100}, {size: 'Daks (22oz)', price: 130}] },
+        { name: 'Yema de Leche', sizes: [{size: 'Juts (16oz)', price: 100}, {size: 'Daks (22oz)', price: 130}] },
+        { name: 'Coffee Crumble', sizes: [{size: 'Juts (16oz)', price: 100}, {size: 'Daks (22oz)', price: 130}] },
+        { name: "Wayne's Strawberry", sizes: [{size: 'Juts (16oz)', price: 100}, {size: 'Daks (22oz)', price: 130}] },
+        { name: 'Cheesy Avocado', sizes: [{size: 'Juts (16oz)', price: 100}, {size: 'Daks (22oz)', price: 130}] },
+        { name: "Arjao's Triple Chocolate", sizes: [{size: 'Juts (16oz)', price: 115}, {size: 'Daks (22oz)', price: 150}] },
+        { name: 'Cookies & Cream', sizes: [{size: 'Juts (16oz)', price: 115}, {size: 'Daks (22oz)', price: 150}] }
+      ],
+      'milk-based': [
+        { name: 'Green Tea Latte (Matcha)', sizes: [{size: 'Iced 16oz', price: 100}, {size: 'Iced 22oz', price: 150}, {size: 'Hot 8oz', price: 75}, {size: 'Hot 12oz', price: 95}] },
+        { name: 'Classic Chocolate', sizes: [{size: 'Iced 16oz', price: 100}, {size: 'Iced 22oz', price: 150}, {size: 'Hot 8oz', price: 75}, {size: 'Hot 12oz', price: 95}] },
+        { name: 'Strawberry Milk', sizes: [{size: 'Iced 16oz', price: 100}, {size: 'Iced 22oz', price: 150}, {size: 'Hot 8oz', price: 75}, {size: 'Hot 12oz', price: 95}] }
+      ],
+      'snacks': [
+        { name: 'French Fries', description: 'Sour Cream, Cheese, or BBQ', sizes: [{size: 'Regular', price: 60}] },
+        { name: 'Big Siomai', description: '5 pieces', sizes: [{size: 'Regular', price: 65}] },
+        { name: 'Cheese Sticks', description: '10 pieces', sizes: [{size: 'Regular', price: 80}] },
+        { name: 'Chicken Pops', description: '6 pieces', sizes: [{size: 'Regular', price: 95}] },
+        { name: 'Chicken Nuggets', description: '6 pieces', sizes: [{size: 'Regular', price: 95}] },
+        { name: 'Nachos', sizes: [{size: 'Regular', price: 120}] },
+        { name: 'Cordon Bleu', sizes: [{size: 'Regular', price: 130}] }
+      ],
+      'rice-meals': [
+        { name: 'Pork Chop', sizes: [{size: 'Regular', price: 120}] },
+        { name: 'Pork Tonkatsu', sizes: [{size: 'Regular', price: 100}] },
+        { name: 'Chicken Longganisa', sizes: [{size: 'Regular', price: 100}] },
+        { name: 'Cheesy Hungarian', sizes: [{size: 'Regular', price: 100}] },
+        { name: 'Chicken Nuggets', description: '4 pieces', sizes: [{size: 'Regular', price: 100}] },
+        { name: 'Chicken Pops', description: '4 pieces', sizes: [{size: 'Regular', price: 100}] },
+        { name: 'Big Siomai', description: '3 pieces', sizes: [{size: 'Regular', price: 60}] }
+      ]
+    };
+
+    // Cart state
+    let cart = [];
+    let selectedItems = {};
+
+    // Initialize
+    function init() {
+      renderMenu('all');
+      setupCategoryTabs();
+      updateCartDisplay();
+    }
+
+    // Setup category tabs
+    function setupCategoryTabs() {
+      const tabs = document.querySelectorAll('.category-tab');
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          tabs.forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+          renderMenu(tab.dataset.category);
+        });
+      });
+    }
+
+    // Render menu items
+    function renderMenu(category) {
+      const grid = document.getElementById('menuGrid');
+      grid.innerHTML = '';
+
+      let items = [];
+      if (category === 'all') {
+        Object.values(menuData).forEach(cat => items.push(...cat));
+      } else {
+        items = menuData[category] || [];
+      }
+
+      items.forEach((item, index) => {
+        const itemId = `${category}-${index}`;
+        const card = createMenuCard(item, itemId);
+        grid.appendChild(card);
+      });
+    }
+
+    // Create menu card
+    function createMenuCard(item, itemId) {
+      const div = document.createElement('div');
+      div.className = 'menu-item';
+      
+      const sizesHTML = item.sizes.map((size, idx) => `
+        <div class="size-option ${idx === 0 ? 'selected' : ''}" onclick="selectSize('${itemId}', ${idx})">
+          <span class="size-label">${size.size}</span>
+          <span class="size-price">₱${size.price}</span>
+        </div>
+      `).join('');
+
+      div.innerHTML = `
+        <div class="item-header">
+          <h3 class="item-name">${item.name}</h3>
+          ${item.description ? `<p class="item-description">${item.description}</p>` : ''}
+        </div>
+        <div class="item-sizes" id="sizes-${itemId}">
+          ${sizesHTML}
+        </div>
+        <div class="quantity-control">
+          <button class="qty-btn" onclick="changeQty('${itemId}', -1)">−</button>
+          <span class="qty-display" id="qty-${itemId}">1</span>
+          <button class="qty-btn" onclick="changeQty('${itemId}', 1)">+</button>
+        </div>
+        <button class="add-to-cart-btn" onclick="addToCart('${itemId}', '${item.name}', ${JSON.stringify(item.sizes).replace(/"/g, '&quot;')})">
+          Add to Cart
+        </button>
+      `;
+
+      selectedItems[itemId] = { sizeIndex: 0, quantity: 1 };
+      return div;
+    }
+
+    // Select size
+    function selectSize(itemId, sizeIndex) {
+      const sizesContainer = document.getElementById(`sizes-${itemId}`);
+      const options = sizesContainer.querySelectorAll('.size-option');
+      options.forEach((opt, idx) => {
+        opt.classList.toggle('selected', idx === sizeIndex);
+      });
+      selectedItems[itemId].sizeIndex = sizeIndex;
+    }
+
+    // Change quantity
+    function changeQty(itemId, delta) {
+      const qtyDisplay = document.getElementById(`qty-${itemId}`);
+      let qty = parseInt(qtyDisplay.textContent);
+      qty = Math.max(1, qty + delta);
+      qtyDisplay.textContent = qty;
+      selectedItems[itemId].quantity = qty;
+    }
+
+    // Add to cart
+    function addToCart(itemId, itemName, sizes) {
+      const selected = selectedItems[itemId];
+      const size = sizes[selected.sizeIndex];
+      
+      cart.push({
+        name: itemName,
+        size: size.size,
+        price: size.price,
+        quantity: selected.quantity
+      });
+
+      // Reset quantity
+      document.getElementById(`qty-${itemId}`).textContent = '1';
+      selectedItems[itemId].quantity = 1;
+
+      updateCartDisplay();
+      
+      // Show notification
+      alert(`${itemName} (${size.size}) added to cart!`);
+    }
+
+    // Update cart display
+    function updateCartDisplay() {
+      const cartCount = document.getElementById('cartCount');
+      const cartItems = document.getElementById('cartItems');
+      const cartTotal = document.getElementById('cartTotal');
+
+      cartCount.textContent = cart.length;
+
+      if (cart.length === 0) {
+        cartItems.innerHTML = '<div class="empty-cart"><p>Your cart is empty</p></div>';
+        cartTotal.textContent = '₱0';
+        return;
+      }
+
+      let total = 0;
+      let itemsHTML = '';
+
+      cart.forEach((item, index) => {
+        const itemTotal = item.price * item.quantity;
+        total += itemTotal;
+
+        itemsHTML += `
+          <div class="cart-item">
+            <div class="cart-item-details">
+              <h4>${item.name}</h4>
+              <p class="cart-item-size">${item.size}</p>
+              <p class="cart-item-qty">Qty: ${item.quantity}</p>
+            </div>
+            <div class="cart-item-right">
+              <span class="cart-item-price">₱${itemTotal}</span>
+              <button class="remove-item" onclick="removeFromCart(${index})">Remove</button>
+            </div>
+          </div>
+        `;
+      });
+
+      cartItems.innerHTML = itemsHTML;
+      cartTotal.textContent = `₱${total}`;
+    }
+
+    // Remove from cart
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      updateCartDisplay();
+    }
+
+    // Toggle cart
+    function toggleCart() {
+      const sidebar = document.getElementById('cartSidebar');
+      const overlay = document.getElementById('cartOverlay');
+      
+      sidebar.classList.toggle('open');
+      overlay.classList.toggle('active');
+    }
+
+    // Checkout
+    function checkout() {
+      if (cart.length === 0) {
+        alert('Your cart is empty!');
+        return;
+      }
+
+      let message = 'Hi! I would like to order the following:%0A%0A';
+      
+      let total = 0;
+      cart.forEach((item, index) => {
+        const itemTotal = item.price * item.quantity;
+        total += itemTotal;
+        message += `${index + 1}. ${item.name}%0A`;
+        message += `   Size: ${item.size}%0A`;
+        message += `   Quantity: ${item.quantity}%0A`;
+        message += `   Price: ₱${itemTotal}%0A%0A`;
+      });
+
+      message += `TOTAL: ₱${total}%0A%0A`;
+      message += 'Please confirm my order. Thank you!';
+
+      // Redirect to Facebook Messenger
+      const messengerURL = `https://m.me/269318226255764?text=${message}`;
+      window.open(messengerURL, '_blank');
+    }
+
+    // Initialize on page load
+    init();
+  </script>
+</body>
+</html>
